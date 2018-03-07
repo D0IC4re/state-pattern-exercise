@@ -1,29 +1,47 @@
 package com.example.examplestatemachine;
 
-public class StateContext extends State{
-    private String s;
+public class StateContext{
+    private State acceptState ;
+    private State rejectState ;
+    private State currentState;
+    private char c;
 
     public StateContext(){
-        s = "";
+        rejectState = new RejectState(this);
+        acceptState = new AcceptState(this);
+        currentState = rejectState;
+        c = 'e';
     }
 
-    @Override
     public void actionA() {
-        s += "A";
+        currentState.actionA();
     }
 
-    @Override
     public void actionB() {
-        s += "B";
+        currentState.actionB();
     }
 
-    @Override
     public boolean isAccept() {
-        if (s.charAt(0) == s.charAt(s.length() - 1)){
-            this.accept = true;
-        }else{
-            this.accept = false;
-        }
-        return this.accept;
+        return currentState.isAccept();
+    }
+
+    public State getAcceptState(){
+        return acceptState;
+    }
+
+    public State getRejectState(){
+        return rejectState;
+    }
+
+    public char getFirst(){
+        return c;
+    }
+
+    public void setFirst(char c){
+        this.c = c;
+    }
+
+    public void setCurrentState(State currentState){
+        this.currentState = currentState;
     }
 }
